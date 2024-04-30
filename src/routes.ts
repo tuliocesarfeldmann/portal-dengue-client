@@ -1,5 +1,8 @@
 import Home from './pages/Home'
 import Login from './pages/Login'
+import CadastrarPonto from './pages/CadastrarPonto'
+import Informativos from './pages/Informativos'
+import Estatisticas from './pages/Estatisticas'
 
 const routes = [
   {
@@ -8,9 +11,19 @@ const routes = [
     Component: Home
   },
   {
-    path: '/cadastro',
+    path: '/cadastrarPonto',
     exact: true,
-    Component: Home
+    Component: CadastrarPonto
+  },
+  {
+    path: '/informativos',
+    exact: true,
+    Component: Informativos
+  },
+  {
+    path: '/estatisticas',
+    exact: true,
+    Component: Estatisticas
   },
   {
     path: '/dashboard',

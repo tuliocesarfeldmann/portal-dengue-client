@@ -4,14 +4,13 @@ import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { colors } from 'src/Theme'
+import { useNavigate } from 'react-router-dom'
+import { Divider } from '@mui/material'
+import DrawerButton from './DrawerButton'
 
 const drawerWidth = '240px'
 const appbarHeight = '60px'
@@ -24,6 +23,7 @@ interface Props {
 export default function ResponsiveDrawer (props: Props): JSX.Element {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const [isClosing, setIsClosing] = React.useState(false)
+  const navigate = useNavigate()
 
   const handleDrawerClose = (): void => {
     setIsClosing(true)
@@ -42,29 +42,42 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
 
   const drawer = (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <ListItemText primary={'LOGO'} primaryTypographyProps={{
+      <Box
+        component="img"
+        sx={{
+          width: '80%',
+          borderRadius: '20px',
+          mt: '20px'
+        }}
+        alt="Portal da Dengue logo."
+        src="/logo.png"
+      />
+      <ListItemText primary={ 'PORTAL DA DENGUE - TP' } primaryTypographyProps={{
+        textAlign: 'center',
         fontWeight: 700,
-        fontSize: '1.2em'
-      }} sx={{
-        mt: '40px',
-        mb: '40px'
-      }}/>
-      <List>
-        {['HOME', 'CADASTRAR PONTO', 'INFORMATIVOS', 'ESTATÍSTICAS'].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{
-            backgroundColor: props.selected === text ? colors.selectedBackground : colors.background,
-            color: props.selected === text ? colors.selectedForeground : colors.foreground,
-            borderRadius: '10px'
-          }}>
-            <ListItemButton>
-              <ListItemText primary={text} primaryTypographyProps={{
-                fontWeight: 700,
-                fontSize: '1.2em'
-              }} sx={{ textAlign: 'center', fontWeight: 'bold' }}/>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+        fontSize: '1.5em'
+      }} sx={{ margin: '20px' }} />
+      <Divider sx={{ color: '#000000', width: '100%', mb: '20px' }}/>
+      <DrawerButton
+        onClick={() => { navigate('/') }}
+        selected={ props.selected === 'HOME' }>
+        HOME
+      </DrawerButton>
+      <DrawerButton
+        onClick={() => { navigate('/cadastrarPonto') }}
+        selected={ props.selected === 'CADASTRAR PONTO' }>
+        CADASTRAR PONTO
+      </DrawerButton>
+      <DrawerButton
+        onClick={() => { navigate('/informativos') }}
+        selected={ props.selected === 'INFORMATIVOS' }>
+        INFORMATIVOS
+      </DrawerButton>
+      <DrawerButton
+        onClick={() => { navigate('/estatisticas') }}
+        selected={ props.selected === 'ESTATÍSTICAS' }>
+        ESTATÍSTICAS
+      </DrawerButton>
     </Box>
   )
 
@@ -91,7 +104,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Portal da Dengue - TP
           </Typography>
         </Toolbar>
       </AppBar>
@@ -140,7 +153,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         component="main"
         sx={{ flexGrow: 1, width: { md: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Toolbar sx={{ display: { xs: 'block', md: 'none' } }}/>
+        <Toolbar sx={{ display: { xs: 'block', md: 'none' } }} />
         {props.children}
       </Box>
     </Box>
