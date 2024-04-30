@@ -1,4 +1,5 @@
 import Home from './pages/Home'
+import Login from './pages/Login'
 
 const routes = [
   {
@@ -19,7 +20,7 @@ const routes = [
   {
     path: '/login',
     exact: true,
-    Component: Home
+    Component: Login
   }
 ]
 
