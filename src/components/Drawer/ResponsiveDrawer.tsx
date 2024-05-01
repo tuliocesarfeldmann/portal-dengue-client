@@ -87,10 +87,10 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
       <AppBar
         position="fixed"
         sx={{
-          display: { md: 'none' },
-          width: { md: `calc(100% - ${drawerWidth}px)` },
+          display: { sm: 'none' },
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
           height: appbarHeight,
-          ml: { md: `${drawerWidth}px` }
+          ml: { sm: `${drawerWidth}px` }
         }}
       >
         <Toolbar>
@@ -99,7 +99,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' } }}
+            sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
@@ -110,7 +110,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
@@ -122,7 +122,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
             keepMounted: true // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', md: 'none' },
+            display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
@@ -136,7 +136,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', md: 'block' },
+            display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
@@ -151,9 +151,9 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Toolbar sx={{ display: { xs: 'block', md: 'none' } }} />
+        <Toolbar sx={{ display: { xs: 'block', sm: 'none' } }} />
         {props.children}
       </Box>
     </Box>
