@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
-import { Divider } from '@mui/material'
+import { Divider, Grid, Paper } from '@mui/material'
 import DrawerButton from './DrawerButton'
 
 const drawerWidth = '240px'
@@ -151,10 +151,16 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
       </Box>
       <Box
         component="main"
+        display={'flex'}
+        flexDirection={'column'}
+        justifyContent={'center'}
+        padding={{ xs: 1, sm: 2 }}
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar sx={{ display: { xs: 'block', sm: 'none' } }} />
-        {props.children}
+        <Grid container component={Paper} height={'100%'} xs={12} sm={10} md={8} xl={6} alignSelf={'center'}>
+          {props.children}
+        </Grid>
       </Box>
     </Box>
   )
