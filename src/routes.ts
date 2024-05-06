@@ -3,6 +3,7 @@ import Login from './pages/Login'
 import CadastrarPonto from './pages/CadastrarPonto'
 import Informativos from './pages/Informativos'
 import Estatisticas from './pages/Estatisticas'
+import RelatedPoints from './pages/ReportedPoints'
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     path: '/login',
     exact: true,
     Component: Login
+  },
+  {
+    path: '/reported-points',
+    exact: true,
+    Component: RelatedPoints
   }
 ]
 

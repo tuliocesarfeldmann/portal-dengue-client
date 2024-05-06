@@ -1,6 +1,7 @@
 import { Button, Grid } from '@mui/material'
 import axios from 'axios'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import MGridForm from 'src/components/MGridForm'
 import MTextField from 'src/components/MTextField'
 import { BASE_URL } from 'src/util'
@@ -11,6 +12,7 @@ export default function Login (): JSX.Element {
     email: '',
     password: ''
   })
+  const navigate = useNavigate()
 
   const validateForm = (): boolean => {
     return state.email.length > 0 && state.password.length > 0
@@ -27,8 +29,9 @@ export default function Login (): JSX.Element {
 
   const handleSubmit = (): void => {
     if (validateForm()) {
-      axios.post(BASE_URL + '/login', state)
-        .then(response => { console.log(response) })
+      console.log('teste: ', state)
+      axios.post(BASE_URL + '/public/user/login', state)
+        .then(response => { navigate('/reported-points') })
         .catch(error => { console.log(error) })
       return
     }

@@ -45,7 +45,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
       <Box
         component="img"
         sx={{
-          width: '80%',
+          width: '30%',
           borderRadius: '20px',
           mt: '20px'
         }}
