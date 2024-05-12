@@ -17,6 +17,7 @@ export default function MGridForm (props: MGridFormProps): JSX.Element {
   return (
     <Box display='flex' flexDirection='column' sx={{ paddingRight: '5%', paddingLeft: '5%' }} >
       <Grid
+        container
         direction={'column'}
         padding={2}
         spacing={4}
@@ -24,7 +25,7 @@ export default function MGridForm (props: MGridFormProps): JSX.Element {
         alignItems={'center'}
         display={'flex'}
       >
-        <Grid item spacing={2} padding={2}>
+        <Grid item padding={2}>
           <Typography
             variant={'h5'}
             marginBottom={'10px'}

@@ -158,9 +158,21 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar sx={{ display: { xs: 'block', sm: 'none' } }} />
-        <Grid container component={Paper} height={'100%'} xs={12} sm={10} md={8} xl={6} alignSelf={'center'}>
-          {props.children}
-        </Grid>
+        <Box display={'flex'} justifyContent={'center'}>
+          <Box width={'100%'} display={'flex'} justifyContent={'center'} maxWidth={'2000px'}>
+            <Grid
+              container
+              item
+              component={Paper}
+              height={'100%'}
+              xs={12} sm={10}
+              alignSelf={'center'}
+              width={'100%'}
+            >
+              {props.children}
+            </Grid>
+          </Box>
+        </Box>
       </Box>
     </Box>
   )

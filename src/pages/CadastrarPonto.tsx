@@ -1,22 +1,26 @@
 import { Button, Grid } from '@mui/material'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
-import MapSelector, { type Point } from 'src/components/MapSelector'
+import MapSelector, { type Point } from 'src/components/Maps/MapSelector'
 import MTextField from 'src/components/MTextField'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { BASE_URL } from 'src/util'
 
 export default function Home (): JSX.Element {
   const [validDescription, setValidDescription] = useState(true)
   const [point, setPoint] = useState<Point>(
     {
-      lat: undefined,
-      lng: undefined
+      latitude: undefined,
+      longitude: undefined
     }
   )
   const [description, setDescription] = useState('')
+  const navigate = useNavigate()
 
   const validateForm = (): boolean => {
-    return point.lat !== undefined &&
-      point.lng !== undefined &&
+    return point.latitude !== undefined &&
+      point.longitude !== undefined &&
       description.length > 0
   }
 
@@ -25,10 +29,16 @@ export default function Home (): JSX.Element {
   }
 
   const handleSubmit = (): void => {
-    console.log(point)
-
     if (validateForm()) {
-      console.log('teste')
+      const requestData = {
+        ...point,
+        description
+      }
+      console.log('teste: ', requestData)
+      console.log(BASE_URL)
+      axios.post(BASE_URL + '/point/public/register', requestData)
+        .then(response => { navigate('/') })
+        .catch(error => { console.log(error) })
       return
     }
 

@@ -11,8 +11,8 @@ interface MapSelectorProps {
 }
 
 export interface Point {
-  lat: number | undefined
-  lng: number | undefined
+  latitude: number | undefined
+  longitude: number | undefined
 }
 
 export default function MapSelector (props: MapSelectorProps): JSX.Element {
@@ -21,7 +21,7 @@ export default function MapSelector (props: MapSelectorProps): JSX.Element {
   function SelectPositionMarker (): JSX.Element {
     useMapEvent('click', (event) => {
       if (props.onClick !== undefined) {
-        props.onClick({ lat: event.latlng.lat, lng: event.latlng.lng })
+        props.onClick({ latitude: event.latlng.lat, longitude: event.latlng.lng })
       }
       setClickPosition(event.latlng)
     })
@@ -36,12 +36,17 @@ export default function MapSelector (props: MapSelectorProps): JSX.Element {
   }
 
   return (
-    <Grid container xs={12} justifyContent={'center'} padding={{ xs: 1, sm: 2 }}>
+    <Grid container justifyContent={'center'} padding={{ xs: 1, sm: 2 }}>
       <Grid item xs={12} sx={{ height: { xs: '60vh', sm: '70vh' }, borderRadius: '20px', overflow: 'hidden' }} >
-        <MapContainer center={[-27.456551, -53.9300297]} zoom={17} style={{ height: '100%', width: '100%' }}>
-          <TileLayer detectRetina={true}
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        <MapContainer
+          center={[-27.456551, -53.9300297]}
+          zoom={17}
+          bounceAtZoomLimits={false}
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer detectRetina={false}
+            attribution='Google Maps'
+            url='https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}'
           />
           <SelectPositionMarker />
         </MapContainer>

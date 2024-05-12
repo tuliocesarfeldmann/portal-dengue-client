@@ -1,12 +1,14 @@
 import { Button, Grid } from '@mui/material'
 import axios from 'axios'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from 'src/AuthContext'
 import MGridForm from 'src/components/MGridForm'
 import MTextField from 'src/components/MTextField'
 import { BASE_URL } from 'src/util'
 
 export default function Login (): JSX.Element {
+  const { setEmail, setPassword } = useContext(AuthContext)
   const [validForm, setValidForm] = useState(true)
   const [state, setState] = useState({
     email: '',
@@ -31,7 +33,11 @@ export default function Login (): JSX.Element {
     if (validateForm()) {
       console.log('teste: ', state)
       axios.post(BASE_URL + '/public/user/login', state)
-        .then(response => { navigate('/reported-points') })
+        .then(response => {
+          setEmail(state.email)
+          setPassword(state.password)
+          navigate('/reported-points')
+        })
         .catch(error => { console.log(error) })
       return
     }
