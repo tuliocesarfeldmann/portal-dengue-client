@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from 'src/AuthContext'
 import MGridForm from 'src/components/MGridForm'
 import MTextField from 'src/components/MTextField'
-import { BASE_URL } from 'src/util'
+import { BASE_URL } from 'src/util/util'
 
 export default function Login (): JSX.Element {
   const { setEmail, setPassword } = useContext(AuthContext)
@@ -31,7 +31,6 @@ export default function Login (): JSX.Element {
 
   const handleSubmit = (): void => {
     if (validateForm()) {
-      console.log('teste: ', state)
       axios.post(BASE_URL + '/public/user/login', state)
         .then(response => {
           setEmail(state.email)

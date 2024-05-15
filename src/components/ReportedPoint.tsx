@@ -1,8 +1,14 @@
 import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
 import MiniMapViewer from './Maps/MiniMapViewer'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import axios from 'axios'
+import { BASE_URL } from 'src/util/util'
+import { StatusEnum } from 'src/util/StatusEnum'
+import { AuthContext } from 'src/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 interface ReportedPointProps {
+  id: number
   lat: number
   lng: number
   description: string
@@ -16,17 +22,37 @@ interface ReportedPointProps {
 //   state: string | undefined
 // }
 
-export default function ReportedPoint ({ lat, lng, description }: ReportedPointProps): JSX.Element {
+export default function ReportedPoint ({ id, lat, lng, description }: ReportedPointProps): JSX.Element {
+  const { email, password } = useContext(AuthContext)
+  const navigate = useNavigate()
+
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const acceptColor = '#10A81F'
   const refuseColor = '#CD0707'
+
   function handleAccept (): void {
     setModalOpen(true)
   }
 
-  // function handleRefuse (): void {
-  // }
+  function handleRefuse (): void {
+    if (email === undefined || password === undefined) return
+
+    axios.post(BASE_URL + '/point/updateStatus', {
+      pointId: id,
+      status: StatusEnum.REJECTED
+    },
+    {
+      auth: {
+        username: email,
+        password
+      }
+    })
+      .then(_ => {
+        navigate('/reported-points')
+      })
+      .catch(error => { console.log(error) })
+  }
 
   function handleModalClose (): void {
     setModalOpen(false)
@@ -38,9 +64,9 @@ export default function ReportedPoint ({ lat, lng, description }: ReportedPointP
   return (
     <>
       <Grid item display={'flex'} flexDirection={{ xs: 'column', md: 'row' }}
-      justifyContent={'center'} xs={12} marginY={2}>
+        justifyContent={'center'} xs={12} marginY={2}>
         <Grid item xs={12} md={5} padding={{ xs: 1, md: 2 }}>
-          <MiniMapViewer lat={lat} lng={lng}/>
+          <MiniMapViewer lat={lat} lng={lng} />
         </Grid>
         <Grid item display={'flex'} flexDirection={'column'} xs={12} md={7} padding={{ xs: 1, md: 2 }}>
           <Grid item >
@@ -65,7 +91,13 @@ export default function ReportedPoint ({ lat, lng, description }: ReportedPointP
               </Button>
             </Grid>
             <Grid item >
-              <Button variant='contained' sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: refuseColor }}>Recusar</Button>
+              <Button
+                variant='contained'
+                sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: refuseColor }}
+                onClick={handleRefuse}
+              >
+                Recusar
+              </Button>
             </Grid>
           </Grid>
         </Grid>
@@ -75,7 +107,7 @@ export default function ReportedPoint ({ lat, lng, description }: ReportedPointP
         onClose={handleModalClose}
         aria-labelledby="modal-address"
         aria-describedby="modal-modal-description"
-        >
+      >
         <Box sx={{
           position: 'absolute' as 'absolute',
           top: '50%',

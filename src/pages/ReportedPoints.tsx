@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
 import axios from 'axios'
-import { BASE_URL } from 'src/util'
+import { BASE_URL } from 'src/util/util'
 import { AuthContext } from 'src/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import ReportedPoint from 'src/components/ReportedPoint'
@@ -52,9 +52,10 @@ export default function ReportedPoints (): JSX.Element {
         </Typography>
         <Grid container display={'flex'}>
           {pointList?.map((point) => {
+            console.log(point)
             return (
               <ReportedPoint
-                key={point.id}
+                id={point.id}
                 lat={point.latitude}
                 lng={point.longitude}
                 description={point.description}

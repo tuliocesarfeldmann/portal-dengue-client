@@ -5,7 +5,7 @@ import MTextField from 'src/components/MTextField'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { BASE_URL } from 'src/util'
+import { BASE_URL } from 'src/util/util'
 
 export default function Home (): JSX.Element {
   const [validDescription, setValidDescription] = useState(true)
@@ -34,8 +34,6 @@ export default function Home (): JSX.Element {
         ...point,
         description
       }
-      console.log('teste: ', requestData)
-      console.log(BASE_URL)
       axios.post(BASE_URL + '/point/public/register', requestData)
         .then(response => { navigate('/') })
         .catch(error => { console.log(error) })
