@@ -6,16 +6,19 @@ import {
 
 interface TextFieldProps {
   variant?: 'filled' | 'outlined' | 'standard'
-  xs: any
-  sm: any
+  xs?: any
+  sm?: any
   label: string
   name: string
   type: string
   autoFocus: boolean
   required: boolean
-  onChange: any
-  error: boolean
-  helperText: React.ReactNode
+  disabled?: boolean
+  onChange?: any
+  margin?: 'dense' | 'none' | 'normal'
+  defaultValue?: string
+  error?: boolean
+  helperText?: React.ReactNode
 }
 
 export default function MTextField (props: TextFieldProps): JSX.Element {

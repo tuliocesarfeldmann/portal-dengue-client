@@ -55,6 +55,7 @@ export default function ReportedPoints (): JSX.Element {
             console.log(point)
             return (
               <ReportedPoint
+                key={point.id}
                 id={point.id}
                 lat={point.latitude}
                 lng={point.longitude}

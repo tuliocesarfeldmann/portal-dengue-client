@@ -2,7 +2,9 @@ import {
   Box,
   Grid,
   Typography,
-  Paper
+  Paper,
+  useTheme,
+  useMediaQuery
 } from '@mui/material'
 
 interface MGridFormProps {
@@ -10,17 +12,21 @@ interface MGridFormProps {
   title: string
   className?: string
   children: React.ReactNode
+  height?: string
+  width?: string
 }
 
 export default function MGridForm (props: MGridFormProps): JSX.Element {
   const { spacing } = props
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
     <Box display='flex' flexDirection='column' sx={{ paddingRight: '5%', paddingLeft: '5%' }} >
       <Grid
         container
         direction={'column'}
-        padding={2}
-        spacing={4}
         justifyContent={'center'}
         alignItems={'center'}
         display={'flex'}
@@ -45,6 +51,12 @@ export default function MGridForm (props: MGridFormProps): JSX.Element {
           variant='outlined'
           borderRadius={'20px'}
           border={'2px solid #0072F0'}
+          height={props.height ?? 'auto'}
+          width={isMobile ? '90vw' : '45vw'}
+          display={'flex'}
+          flexDirection={'column'}
+          justifyContent={'center'}
+          marginLeft={'0px'}
           padding={2}
         >
           {props.children}

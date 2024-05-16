@@ -52,14 +52,15 @@ export default function Login (): JSX.Element {
         height: '100vh'
       }}
     >
-      <MGridForm title={'FAÇA O LOGIN'}>
-        <Grid container item direction='row' justifyContent={'center'} >
+      <MGridForm title={'FAÇA O LOGIN'} height={'75vh'} width={'40vw'}>
+        <Grid container direction='row'>
           <MTextField
             xs={12}
             sm={12}
             label={'Email'}
             name={'email'}
             type={'email'}
+            margin={'dense'}
             autoFocus={true}
             required={true}
             onChange={handleChange}
@@ -67,13 +68,14 @@ export default function Login (): JSX.Element {
             helperText={!validForm && state.email.length === 0 && 'Informe o email'}
           />
         </Grid>
-        <Grid container item direction='row' justifyContent={'center'} >
+        <Grid container direction='row'>
           <MTextField
             xs={12}
             sm={12}
             label={'Password'}
             name={'password'}
             type={'password'}
+            margin={'dense'}
             autoFocus={false}
             required={true}
             onChange={handleChange}
@@ -81,10 +83,11 @@ export default function Login (): JSX.Element {
             helperText={!validForm && state.password.length === 0 && 'Informe a senha'}
           />
         </Grid>
-        <Grid container item direction='row' justifyContent={'center'} >
+        <Grid container direction='row' margin={'8px 0px 0px 0px'}>
           <Button
             onClick={handleSubmit}
             variant='contained'
+            fullWidth={true}
             style={{ backgroundColor: '#0072F0' }}
           >
             LOGIN

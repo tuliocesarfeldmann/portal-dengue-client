@@ -1,11 +1,11 @@
-import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, Modal, Typography } from '@mui/material'
 import MiniMapViewer from './Maps/MiniMapViewer'
 import { useContext, useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from 'src/util/util'
 import { StatusEnum } from 'src/util/StatusEnum'
 import { AuthContext } from 'src/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import MTextField from './MTextField'
 
 interface ReportedPointProps {
   id: number
@@ -14,25 +14,58 @@ interface ReportedPointProps {
   description: string
 }
 
-// interface AddressInfo {
-//   road: string | undefined
-//   number: number | string | undefined
-//   neighborhood: string | undefined
-//   city: string | undefined
-//   state: string | undefined
-// }
+interface AddressInfo {
+  road: string | undefined
+  neighborhood: string | undefined
+  town: string | undefined
+  state: string | undefined
+  region: string | undefined
+  postcode: string | undefined
+  country: string | undefined
+  countryCode: string | undefined
+}
 
 export default function ReportedPoint ({ id, lat, lng, description }: ReportedPointProps): JSX.Element {
   const { email, password } = useContext(AuthContext)
-  const navigate = useNavigate()
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [validForm, setValidForm] = useState<boolean>(true)
+  const [addressInfo, setAddressInfo] = useState<AddressInfo>({
+    road: undefined,
+    neighborhood: undefined,
+    town: undefined,
+    state: undefined,
+    region: undefined,
+    postcode: undefined,
+    country: undefined,
+    countryCode: undefined
+  })
 
   const acceptColor = '#10A81F'
   const refuseColor = '#CD0707'
 
+  const validateForm = (): boolean => {
+    return addressInfo.road !== undefined && addressInfo.road.length > 0
+  }
+
   function handleAccept (): void {
-    setModalOpen(true)
+    if (email === undefined || password === undefined) return
+
+    axios.get(BASE_URL + '/point/address/details', {
+      params: {
+        lat: lat,
+        lon: lng
+      },
+      auth: {
+        username: email,
+        password
+      }
+    })
+      .then(response => {
+        setAddressInfo(response.data)
+        setModalOpen(true)
+      })
+      .catch(error => { console.log(error) })
   }
 
   function handleRefuse (): void {
@@ -49,7 +82,7 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
       }
     })
       .then(_ => {
-        navigate('/reported-points')
+        window.location.reload()
       })
       .catch(error => { console.log(error) })
   }
@@ -59,6 +92,29 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
   }
 
   function handleFinalConfirmation (): void {
+    if (email === undefined || password === undefined) return
+
+    if (validateForm()) {
+      axios.post(BASE_URL + '/point/confirm', {
+        point: {
+          id: id
+        },
+        address: addressInfo
+      },
+      {
+        auth: {
+          username: email,
+          password
+        }
+      })
+        .then(_ => {
+          window.location.reload()
+        })
+        .catch(error => { console.log(error) })
+      return
+    }
+
+    setValidForm(false)
   }
 
   return (
@@ -123,44 +179,78 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
             Confirme os dados do endereço
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={8}>
-              <TextField
-                fullWidth={true}
-                variant='outlined'
-                label='Rua'
-                margin='dense'
+            <Grid item xs={12} md={7}>
+              <MTextField
+                label={'Rua'}
+                name={'road'}
+                type={'text'}
+                defaultValue={addressInfo.road}
+                margin={'dense'}
+                autoFocus={true}
+                required={true}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setAddressInfo({ ...addressInfo, road: event.target.value }) }}
+                error={!validForm}
+                helperText={!validForm && addressInfo.road?.length === 0 && 'Informe a rua'}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth={true}
-                variant='outlined'
-                label='Número'
-                margin='dense'
+            <Grid item xs={12} md={5}>
+              <MTextField
+                label={'Bairro'}
+                name={'neighborhood'}
+                type={'text'}
+                defaultValue={addressInfo.neighborhood}
+                margin={'dense'}
+                autoFocus={true}
+                required={true}
+                disabled={true}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
-              <TextField
-                fullWidth={true}
-                variant='outlined'
-                label='Bairro'
-                margin='dense'
+              <MTextField
+                label={'Cidade'}
+                name={'town'}
+                type={'text'}
+                defaultValue={addressInfo.town}
+                margin={'dense'}
+                autoFocus={true}
+                required={true}
+                disabled={true}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
-              <TextField
-                fullWidth={true}
-                variant='outlined'
-                label='Cidade'
-                margin='dense'
+              <MTextField
+                label={'Estado'}
+                name={'state'}
+                type={'text'}
+                defaultValue={addressInfo.state}
+                margin={'dense'}
+                autoFocus={true}
+                required={true}
+                disabled={true}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth={true}
-                variant='outlined'
-                label='Estado'
-                margin='dense'
+            <Grid item xs={12} lg={6}>
+              <MTextField
+                label={'Pais'}
+                name={'country'}
+                type={'text'}
+                defaultValue={addressInfo.country}
+                margin={'dense'}
+                autoFocus={true}
+                required={true}
+                disabled={true}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <MTextField
+                label={'CEP'}
+                name={'postcode'}
+                type={'text'}
+                defaultValue={addressInfo.postcode}
+                margin={'dense'}
+                autoFocus={true}
+                required={true}
+                disabled={true}
               />
             </Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}>
