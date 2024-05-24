@@ -14,6 +14,7 @@ interface MGridFormProps {
   children: React.ReactNode
   height?: string
   width?: string
+  border?: string
 }
 
 export default function MGridForm (props: MGridFormProps): JSX.Element {
@@ -23,13 +24,14 @@ export default function MGridForm (props: MGridFormProps): JSX.Element {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
-    <Box display='flex' flexDirection='column' sx={{ paddingRight: '5%', paddingLeft: '5%' }} >
+    <Box display='flex' flexDirection='column' width={'100%'} minHeight={'90vh'}>
       <Grid
         container
         direction={'column'}
         justifyContent={'center'}
         alignItems={'center'}
         display={'flex'}
+        width={'100%'}
       >
         <Grid item padding={2}>
           <Typography
@@ -50,9 +52,9 @@ export default function MGridForm (props: MGridFormProps): JSX.Element {
           component={Paper}
           variant='outlined'
           borderRadius={'20px'}
-          border={'2px solid #0072F0'}
+          border={props.border ?? 'none'}
           height={props.height ?? 'auto'}
-          width={isMobile ? '90vw' : '45vw'}
+          width={isMobile ? '90vw' : props.width !== undefined ? props.width : '100%'}
           display={'flex'}
           flexDirection={'column'}
           justifyContent={'center'}

@@ -4,6 +4,8 @@ import CadastrarPonto from './pages/CadastrarPonto'
 import Informativos from './pages/Informativos'
 import Estatisticas from './pages/Estatisticas'
 import RelatedPoints from './pages/ReportedPoints'
+import About from './pages/About'
+import RegisterInformative from './pages/RegisterInformative'
 
 const routes = [
   {
@@ -40,6 +42,16 @@ const routes = [
     path: '/reported-points',
     exact: true,
     Component: RelatedPoints
+  },
+  {
+    path: '/about',
+    exact: true,
+    Component: About
+  },
+  {
+    path: '/register-informative',
+    exact: true,
+    Component: RegisterInformative
   }
 ]
 

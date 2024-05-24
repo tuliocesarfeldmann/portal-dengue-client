@@ -52,7 +52,7 @@ export default function Login (): JSX.Element {
         height: '100vh'
       }}
     >
-      <MGridForm title={'FAÇA O LOGIN'} height={'75vh'} width={'40vw'}>
+      <MGridForm title={'FAÇA O LOGIN'} height={'75vh'} width={'40vw'} border={'2px solid #0072F0'}>
         <Grid container direction='row'>
           <MTextField
             xs={12}

@@ -21,7 +21,9 @@ export default function DrawerButton (props: Props): JSX.Element {
           borderRadius: '10px',
           width: '100%',
           fontWeight: 700,
-          fontSize: '1.2em'
+          fontSize: '1.1em',
+          display: 'flex',
+          justifyContent: 'flex-start'
         }}>
         {props.children}
       </Button>

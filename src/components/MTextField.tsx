@@ -15,6 +15,8 @@ interface TextFieldProps {
   required: boolean
   disabled?: boolean
   onChange?: any
+  multiline?: boolean
+  minRows?: number
   margin?: 'dense' | 'none' | 'normal'
   defaultValue?: string
   error?: boolean

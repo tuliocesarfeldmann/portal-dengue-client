@@ -11,8 +11,14 @@ import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
 import { Divider, Grid, Paper } from '@mui/material'
 import DrawerButton from './DrawerButton'
+import HomeIcon from '@mui/icons-material/Home'
+import GpsFixedIcon from '@mui/icons-material/GpsFixed'
+import InfoIcon from '@mui/icons-material/Info'
+import ShowChartIcon from '@mui/icons-material/ShowChart'
+import LoginIcon from '@mui/icons-material/Login'
+import HelpIcon from '@mui/icons-material/Help'
 
-const drawerWidth = '240px'
+const drawerWidth = '250px'
 const appbarHeight = '60px'
 
 interface Props {
@@ -61,22 +67,38 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
       <DrawerButton
         onClick={() => { navigate('/') }}
         selected={ props.selected === 'HOME' }>
-        HOME
+        <HomeIcon />
+        <div style={{ marginLeft: '10px' }}>HOME</div>
       </DrawerButton>
       <DrawerButton
         onClick={() => { navigate('/cadastrarPonto') }}
         selected={ props.selected === 'CADASTRAR PONTO' }>
-        CADASTRAR PONTO
+        <GpsFixedIcon />
+        <div style={{ marginLeft: '10px' }}>CADASTRAR PONTO</div>
       </DrawerButton>
       <DrawerButton
         onClick={() => { navigate('/informativos') }}
         selected={ props.selected === 'INFORMATIVOS' }>
-        INFORMATIVOS
+        <InfoIcon />
+        <div style={{ marginLeft: '10px' }}>INFORMATIVOS</div>
       </DrawerButton>
       <DrawerButton
         onClick={() => { navigate('/estatisticas') }}
         selected={ props.selected === 'ESTATÍSTICAS' }>
-        ESTATÍSTICAS
+        <ShowChartIcon />
+        <div style={{ marginLeft: '10px' }}>ESTATÍSTICAS</div>
+      </DrawerButton>
+      <DrawerButton
+        onClick={() => { navigate('/login') }}
+        selected={ props.selected === 'LOGIN' }>
+        <LoginIcon />
+        <div style={{ marginLeft: '10px' }}>LOGIN</div>
+      </DrawerButton>
+      <DrawerButton
+        onClick={() => { navigate('/about') }}
+        selected={ props.selected === 'SOBRE' }>
+        <HelpIcon />
+        <div style={{ marginLeft: '10px' }}>SOBRE</div>
       </DrawerButton>
     </Box>
   )
