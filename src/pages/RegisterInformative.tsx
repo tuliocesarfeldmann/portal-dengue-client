@@ -37,8 +37,16 @@ export default function RegisterInformative (): JSX.Element {
   }
 
   const handleSubmit = (): void => {
+    if (email === undefined || password === undefined) return
+
     if (validateForm()) {
-      axios.post(BASE_URL + '/informative/register', state)
+      axios.post(BASE_URL + '/informative/register',
+        state, {
+          auth: {
+            username: email,
+            password
+          }
+        })
         .then(_ => {
           navigate('/informativos')
         })

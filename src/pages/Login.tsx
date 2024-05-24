@@ -32,10 +32,10 @@ export default function Login (): JSX.Element {
   const handleSubmit = (): void => {
     if (validateForm()) {
       axios.post(BASE_URL + '/public/user/login', state)
-        .then(response => {
+        .then(_ => {
           setEmail(state.email)
           setPassword(state.password)
-          navigate('/reported-points')
+          navigate('/register-informative')
         })
         .catch(error => { console.log(error) })
       return
