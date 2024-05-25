@@ -77,7 +77,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         <div style={{ marginLeft: '10px' }}>CADASTRAR PONTO</div>
       </DrawerButton>
       <DrawerButton
-        onClick={() => { navigate('/informativos') }}
+        onClick={() => { navigate('/informatives') }}
         selected={ props.selected === 'INFORMATIVOS' }>
         <InfoIcon />
         <div style={{ marginLeft: '10px' }}>INFORMATIVOS</div>
@@ -186,8 +186,8 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
               container
               item
               component={Paper}
-              height={'100%'}
-              xs={12} sm={10}
+              minHeight={'95vh'}
+              // xs={12} sm={10}
               alignSelf={'center'}
               width={'100%'}
             >

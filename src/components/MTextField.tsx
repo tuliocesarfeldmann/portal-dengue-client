@@ -14,6 +14,7 @@ interface TextFieldProps {
   autoFocus: boolean
   required: boolean
   disabled?: boolean
+  value?: string
   onChange?: any
   multiline?: boolean
   minRows?: number

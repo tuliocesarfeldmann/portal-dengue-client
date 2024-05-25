@@ -27,11 +27,11 @@ export default function RegisterInformative (): JSX.Element {
     return state.title.length > 0 && state.description.length > 0
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>, upperCase?: boolean): void => {
     setState(prevState => {
       return {
         ...prevState,
-        [event.target.name]: event.target.value
+        [event.target.name]: upperCase !== undefined && upperCase ? String(event.target.value).toUpperCase() : event.target.value
       }
     })
   }
@@ -48,7 +48,7 @@ export default function RegisterInformative (): JSX.Element {
           }
         })
         .then(_ => {
-          navigate('/informativos')
+          navigate('/informatives')
         })
         .catch(error => { console.log(error) })
       return
@@ -67,10 +67,11 @@ export default function RegisterInformative (): JSX.Element {
               label={'Titulo'}
               name={'title'}
               type={'text'}
+              value={state.title}
               margin={'dense'}
               autoFocus={true}
               required={true}
-              onChange={handleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { handleChange(e, true) }}
               error={!validForm}
               helperText={!validForm && state.title.length === 0 && 'Informe o titulo'}
             />

@@ -1,7 +1,7 @@
 import Home from './pages/Home'
 import Login from './pages/Login'
 import CadastrarPonto from './pages/CadastrarPonto'
-import Informativos from './pages/Informativos'
+import Informatives from './pages/Informatives'
 import Estatisticas from './pages/Estatisticas'
 import RelatedPoints from './pages/ReportedPoints'
 import About from './pages/About'
@@ -19,9 +19,9 @@ const routes = [
     Component: CadastrarPonto
   },
   {
-    path: '/informativos',
+    path: '/informatives',
     exact: true,
-    Component: Informativos
+    Component: Informatives
   },
   {
     path: '/estatisticas',
