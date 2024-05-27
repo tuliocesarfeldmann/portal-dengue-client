@@ -54,7 +54,7 @@ export default function MGridForm (props: MGridFormProps): JSX.Element {
           borderRadius={'20px'}
           border={props.border ?? 'none'}
           height={props.height ?? 'auto'}
-          width={isMobile ? '90vw' : props.width !== undefined ? props.width : '100%'}
+          width={isMobile ? '90vw' : props.width ?? '100%'}
           display={'flex'}
           flexDirection={'column'}
           justifyContent={'center'}
