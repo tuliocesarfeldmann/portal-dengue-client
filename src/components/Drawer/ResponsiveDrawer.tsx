@@ -16,7 +16,11 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import InfoIcon from '@mui/icons-material/Info'
 import ShowChartIcon from '@mui/icons-material/ShowChart'
 import LoginIcon from '@mui/icons-material/Login'
+import ListIcon from '@mui/icons-material/List'
+import AddIcon from '@mui/icons-material/Add'
 import HelpIcon from '@mui/icons-material/Help'
+
+import { AuthContext } from 'src/AuthContext'
 
 const drawerWidth = '250px'
 const appbarHeight = '60px'
@@ -29,6 +33,7 @@ interface Props {
 export default function ResponsiveDrawer (props: Props): JSX.Element {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const [isClosing, setIsClosing] = React.useState(false)
+  const { isUserLogged, clearAuth } = React.useContext(AuthContext)
   const navigate = useNavigate()
 
   const handleDrawerClose = (): void => {
@@ -88,18 +93,39 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         <ShowChartIcon />
         <div style={{ marginLeft: '10px' }}>ESTATÍSTICAS</div>
       </DrawerButton>
-      <DrawerButton
+      {!isUserLogged() && <DrawerButton
         onClick={() => { navigate('/login') }}
         selected={ props.selected === 'LOGIN' }>
         <LoginIcon />
         <div style={{ marginLeft: '10px' }}>LOGIN</div>
-      </DrawerButton>
+      </DrawerButton>}
+      {isUserLogged() && <DrawerButton
+        onClick={() => { navigate('/reported-points') }}
+        selected={ props.selected === 'PONTOS RELATADOS' }>
+        <ListIcon />
+        <div style={{ marginLeft: '10px', textAlign: 'left' }}>PONTOS RELATADOS</div>
+      </DrawerButton>}
+      {isUserLogged() && <DrawerButton
+        onClick={() => { navigate('/register-informative') }}
+        selected={ props.selected === 'CADASTRAR INFORMATIVO' }>
+        <AddIcon />
+        <div style={{ marginLeft: '10px', textAlign: 'left' }}>CADASTRAR INFORMATIVOS</div>
+      </DrawerButton>}
       <DrawerButton
         onClick={() => { navigate('/about') }}
         selected={ props.selected === 'SOBRE' }>
         <HelpIcon />
         <div style={{ marginLeft: '10px' }}>SOBRE</div>
       </DrawerButton>
+      {isUserLogged() && <DrawerButton
+        onClick={() => {
+          clearAuth()
+          navigate('/')
+        }}
+        selected={ false }>
+        <LoginIcon />
+        <div style={{ marginLeft: '10px', textAlign: 'left' }}>LOGOUT</div>
+      </DrawerButton>}
     </Box>
   )
 
@@ -187,7 +213,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
               item
               component={Paper}
               minHeight={'95vh'}
-              // xs={12} sm={10}
+              justifyContent={'center'}
               alignSelf={'center'}
               width={'100%'}
             >

@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import axios from 'axios'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from 'src/AuthContext'
 import ResponsiveDrawer from 'src/components/Drawer/ResponsiveDrawer'
@@ -9,7 +9,7 @@ import MTextField from 'src/components/MTextField'
 import { BASE_URL } from 'src/util/util'
 
 export default function RegisterInformative (): JSX.Element {
-  const { email, password } = useContext(AuthContext)
+  const { email, password, isUserLogged } = useContext(AuthContext)
   const [validForm, setValidForm] = useState(true)
   const [state, setState] = useState({
     title: '',
@@ -17,8 +17,9 @@ export default function RegisterInformative (): JSX.Element {
   })
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (email === undefined || password === undefined) {
+  useMemo(() => {
+    console.log(isUserLogged())
+    if (!isUserLogged()) {
       navigate('/login')
     }
   }, [])

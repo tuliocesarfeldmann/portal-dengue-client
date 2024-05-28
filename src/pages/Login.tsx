@@ -35,6 +35,8 @@ export default function Login (): JSX.Element {
         .then(_ => {
           setEmail(state.email)
           setPassword(state.password)
+          localStorage.setItem('email', state.email)
+          localStorage.setItem('password', state.password)
           navigate('/register-informative')
         })
         .catch(error => { console.log(error) })

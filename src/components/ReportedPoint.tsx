@@ -53,7 +53,7 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
 
     axios.get(BASE_URL + '/point/address/details', {
       params: {
-        lat: lat,
+        lat,
         lon: lng
       },
       auth: {
@@ -97,7 +97,7 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
     if (validateForm()) {
       axios.post(BASE_URL + '/point/confirm', {
         point: {
-          id: id
+          id
         },
         address: addressInfo
       },
