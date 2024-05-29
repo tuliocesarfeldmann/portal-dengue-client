@@ -19,10 +19,11 @@ import LoginIcon from '@mui/icons-material/Login'
 import ListIcon from '@mui/icons-material/List'
 import AddIcon from '@mui/icons-material/Add'
 import HelpIcon from '@mui/icons-material/Help'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 import { AuthContext } from 'src/AuthContext'
 
-const drawerWidth = '250px'
+const drawerWidth = '270px'
 const appbarHeight = '60px'
 
 interface Props {
@@ -110,6 +111,12 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         selected={ props.selected === 'CADASTRAR INFORMATIVO' }>
         <AddIcon />
         <div style={{ marginLeft: '10px', textAlign: 'left' }}>CADASTRAR INFORMATIVOS</div>
+      </DrawerButton>}
+      {isUserLogged() && <DrawerButton
+        onClick={() => { navigate('/register-user') }}
+        selected={ props.selected === 'CADASTRAR USUÁRIO' }>
+        <PersonAddIcon />
+        <div style={{ marginLeft: '10px', textAlign: 'left' }}>CADASTRAR USUÁRIO</div>
       </DrawerButton>}
       <DrawerButton
         onClick={() => { navigate('/about') }}

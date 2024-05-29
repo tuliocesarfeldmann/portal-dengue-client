@@ -6,6 +6,7 @@ import Estatisticas from './pages/Estatisticas'
 import RelatedPoints from './pages/ReportedPoints'
 import About from './pages/About'
 import RegisterInformative from './pages/RegisterInformative'
+import RegisterUser from './pages/RegisterUser'
 
 const routes = [
   {
@@ -52,6 +53,11 @@ const routes = [
     path: '/register-informative',
     exact: true,
     Component: RegisterInformative
+  },
+  {
+    path: '/register-user',
+    exact: true,
+    Component: RegisterUser
   }
 ]
 
