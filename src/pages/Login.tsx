@@ -31,13 +31,13 @@ export default function Login (): JSX.Element {
 
   const handleSubmit = (): void => {
     if (validateForm()) {
-      axios.post(BASE_URL + '/public/user/login', state)
+      axios.post(BASE_URL + '/user/public/login', state)
         .then(_ => {
           setEmail(state.email)
           setPassword(state.password)
           localStorage.setItem('email', state.email)
           localStorage.setItem('password', state.password)
-          navigate('/register-informative')
+          navigate('/reported-points')
         })
         .catch(error => { console.log(error) })
       return
