@@ -1,12 +1,12 @@
 // import { Grid } from '@mui/material'
+import Heatmap from 'src/components/Maps/Heatmap'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
-import MapSelector from 'src/components/Maps/MapSelector'
 
 export default function Home (): JSX.Element {
   return (
     <>
       <ResponsiveDrawer selected='HOME'>
-          <MapSelector/>
+          <Heatmap />
       </ResponsiveDrawer>
     </>
   )
