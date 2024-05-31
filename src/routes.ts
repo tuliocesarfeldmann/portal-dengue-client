@@ -2,7 +2,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import CadastrarPonto from './pages/CadastrarPonto'
 import Informatives from './pages/Informatives'
-import Estatisticas from './pages/Estatisticas'
+import Statistics from './pages/Statistics'
 import RelatedPoints from './pages/ReportedPoints'
 import About from './pages/About'
 import RegisterInformative from './pages/RegisterInformative'
@@ -27,7 +27,7 @@ const routes = [
   {
     path: '/estatisticas',
     exact: true,
-    Component: Estatisticas
+    Component: Statistics
   },
   {
     path: '/dashboard',
