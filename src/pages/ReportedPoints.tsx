@@ -3,9 +3,10 @@ import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
 import axios from 'axios'
 import { BASE_URL } from 'src/util/util'
 import { AuthContext } from 'src/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ReportedPoint from 'src/components/ReportedPoint'
 import { Box, Grid, Typography } from '@mui/material'
+import Popup from 'src/components/Popup'
 
 interface PointInformation {
   id: number
@@ -22,6 +23,9 @@ interface PointInformation {
 export default function ReportedPoints (): JSX.Element {
   const { email, password, isUserLogged } = useContext(AuthContext)
   const [pointList, setPointList] = useState<PointInformation[]>()
+  const [popupOpen, setPopupOpen] = useState<boolean>(false)
+  const [popupMessage, setPopupMessage] = useState<string>()
+  const { state } = useLocation()
   const navigate = useNavigate()
 
   useMemo(() => {
@@ -50,6 +54,13 @@ export default function ReportedPoints (): JSX.Element {
     }
   }, [])
 
+  useEffect(() => {
+    if (state?.userRegistered === true) {
+      setPopupMessage('Salvo com sucesso')
+      setPopupOpen(true)
+    }
+  }, [])
+
   return (
     <>
       <ResponsiveDrawer selected='PONTOS RELATADOS'>
@@ -73,6 +84,7 @@ export default function ReportedPoints (): JSX.Element {
           </Grid>
         </Box>
       </ResponsiveDrawer>
+      <Popup open={popupOpen} color='#33cc33' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
     </>
   )
 }

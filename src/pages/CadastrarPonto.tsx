@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from 'src/util/util'
+import Popup from 'src/components/Popup'
 
 export default function Home (): JSX.Element {
   const [validDescription, setValidDescription] = useState(true)
@@ -16,9 +17,21 @@ export default function Home (): JSX.Element {
     }
   )
   const [description, setDescription] = useState('')
+  const [popupOpen, setPopupOpen] = useState<boolean>(false)
+  const [popupMessage, setPopupMessage] = useState<string>()
   const navigate = useNavigate()
 
   const validateForm = (): boolean => {
+    if (description.length <= 0) {
+      setValidDescription(false)
+      setPopupMessage('Informe a descrição')
+      setPopupOpen(true)
+    }
+    if (point.latitude === undefined || point.longitude === undefined) {
+      setPopupMessage('Marque o ponto no mapa')
+      setPopupOpen(true)
+    }
+
     return point.latitude !== undefined &&
       point.longitude !== undefined &&
       description.length > 0
@@ -35,12 +48,9 @@ export default function Home (): JSX.Element {
         description
       }
       axios.post(BASE_URL + '/point/public/register', requestData)
-        .then(response => { navigate('/') })
+        .then(response => { navigate('/', { state: { pointRegistered: true } }) })
         .catch(error => { console.log(error) })
-      return
     }
-
-    setValidDescription(false)
   }
 
   return (
@@ -73,6 +83,7 @@ export default function Home (): JSX.Element {
             </Grid>
         </Grid>
       </ResponsiveDrawer>
+      <Popup open={popupOpen} color='#cc0000' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
     </>
   )
 }

@@ -5,23 +5,27 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from 'src/AuthContext'
 import MGridForm from 'src/components/MGridForm'
 import MTextField from 'src/components/MTextField'
+import Popup from 'src/components/Popup'
 import { BASE_URL } from 'src/util/util'
 
 export default function Login (): JSX.Element {
   const { setEmail, setPassword } = useContext(AuthContext)
   const [validForm, setValidForm] = useState(true)
-  const [state, setState] = useState({
+  const [formState, setFormState] = useState({
     email: '',
     password: ''
   })
+  const [popupOpen, setPopupOpen] = useState<boolean>(false)
+  const [popupMessage, setPopupMessage] = useState<string>()
+
   const navigate = useNavigate()
 
   const validateForm = (): boolean => {
-    return state.email.length > 0 && state.password.length > 0
+    return formState.email.length > 0 && formState.password.length > 0
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setState(prevState => {
+    setFormState(prevState => {
       return {
         ...prevState,
         [event.target.name]: event.target.value
@@ -31,15 +35,19 @@ export default function Login (): JSX.Element {
 
   const handleSubmit = (): void => {
     if (validateForm()) {
-      axios.post(BASE_URL + '/user/public/login', state)
+      axios.post(BASE_URL + '/user/public/login', formState)
         .then(_ => {
-          setEmail(state.email)
-          setPassword(state.password)
-          localStorage.setItem('email', state.email)
-          localStorage.setItem('password', state.password)
+          setEmail(formState.email)
+          setPassword(formState.password)
+          localStorage.setItem('email', formState.email)
+          localStorage.setItem('password', formState.password)
           navigate('/reported-points')
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          setPopupMessage('Dados incorretos')
+          setPopupOpen(true)
+          console.log(error)
+        })
       return
     }
     setValidForm(false)
@@ -67,7 +75,7 @@ export default function Login (): JSX.Element {
             required={true}
             onChange={handleChange}
             error={!validForm}
-            helperText={!validForm && state.email.length === 0 && 'Informe o email'}
+            helperText={!validForm && formState.email.length === 0 && 'Informe o email'}
           />
         </Grid>
         <Grid container direction='row'>
@@ -82,7 +90,7 @@ export default function Login (): JSX.Element {
             required={true}
             onChange={handleChange}
             error={!validForm}
-            helperText={!validForm && state.password.length === 0 && 'Informe a senha'}
+            helperText={!validForm && formState.password.length === 0 && 'Informe a senha'}
           />
         </Grid>
         <Grid container direction='row' margin={'8px 0px 0px 0px'}>
@@ -96,6 +104,7 @@ export default function Login (): JSX.Element {
           </Button>
         </Grid>
       </MGridForm>
+      <Popup open={popupOpen} color='#cc0000' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
     </div>
   )
 }
