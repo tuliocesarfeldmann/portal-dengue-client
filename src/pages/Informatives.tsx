@@ -41,15 +41,17 @@ export default function Informatives (): JSX.Element {
     <>
       <ResponsiveDrawer selected='INFORMATIVOS'>
         <Grid style={{ width: '100%' }}>
-          {informatives.map((info) => {
-            return (
-              <Informative
-                key={info.id}
-                title={info.title}
-                description={info.description}
-              />
-            )
-          })}
+          {informatives.length > 0
+            ? informatives.map((info) => {
+              return (
+                <Informative
+                  key={info.id}
+                  title={info.title}
+                  description={info.description}
+                />
+              )
+            })
+            : <>Nenhum Informativo</>}
         </Grid>
       </ResponsiveDrawer>
       <Popup open={popupOpen} color='#33cc33' message={popupMessage ?? ''} setPopupState={setPopupOpen} />

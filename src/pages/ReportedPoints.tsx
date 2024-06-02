@@ -22,7 +22,7 @@ interface PointInformation {
 
 export default function ReportedPoints (): JSX.Element {
   const { email, password, isUserLogged } = useContext(AuthContext)
-  const [pointList, setPointList] = useState<PointInformation[]>()
+  const [pointList, setPointList] = useState<PointInformation[]>([])
   const [popupOpen, setPopupOpen] = useState<boolean>(false)
   const [popupMessage, setPopupMessage] = useState<string>()
   const { state } = useLocation()
@@ -69,18 +69,19 @@ export default function ReportedPoints (): JSX.Element {
             PONTOS RELATADOS
           </Typography>
           <Grid container display={'flex'} alignItems={'start'}>
-            {pointList?.map((point) => {
-              console.log(point)
-              return (
-                <ReportedPoint
-                  key={point.id}
-                  id={point.id}
-                  lat={point.latitude}
-                  lng={point.longitude}
-                  description={point.description}
-                />
-              )
-            })}
+            {pointList.length > 0
+              ? pointList.map((point) => {
+                return (
+                  <ReportedPoint
+                    key={point.id}
+                    id={point.id}
+                    lat={point.latitude}
+                    lng={point.longitude}
+                    description={point.description}
+                  />
+                )
+              })
+              : <div style={{ width: '100%', textAlign: 'center' }}>Nenhum Ponto Relatado</div>}
           </Grid>
         </Box>
       </ResponsiveDrawer>
