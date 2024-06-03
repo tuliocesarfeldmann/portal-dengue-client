@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import axios from 'axios'
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from 'src/AuthContext'
 import ResponsiveDrawer from 'src/components/Drawer/ResponsiveDrawer'
@@ -21,7 +21,7 @@ export default function RegisterInformative (): JSX.Element {
   const [popupMessage, setPopupMessage] = useState<string>()
   const navigate = useNavigate()
 
-  useMemo(() => {
+  useEffect(() => {
     if (!isUserLogged()) {
       navigate('/login')
     }
@@ -75,55 +75,57 @@ export default function RegisterInformative (): JSX.Element {
 
   return (
     <>
-      <ResponsiveDrawer selected='CADASTRAR INFORMATIVO'>
-        <Grid container justifyContent='center'>
-          <MGridForm title={'CADASTRO DE INFORMATIVO'}>
-            <Grid container direction='row'>
-              <MTextField
-                xs={12}
-                sm={12}
-                label={'Titulo'}
-                name={'title'}
-                type={'text'}
-                value={state.title}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { handleChange(e, true) }}
-                error={!validTitle}
-                helperText={!validTitle && state.title.length === 0 && 'Informe o titulo'}
-              />
-            </Grid>
-            <Grid container direction='row'>
-              <MTextField
-                xs={12}
-                sm={12}
-                label={'Descrição'}
-                name={'description'}
-                type={'text'}
-                margin={'dense'}
-                autoFocus={false}
-                required={true}
-                onChange={handleChange}
-                multiline={true}
-                minRows={6}
-                error={!validDescription}
-                helperText={!validDescription && state.description.length === 0 && 'Informe a descrição'}
-              />
-            </Grid>
-            <Grid container direction='row' margin={'8px 0px 0px 0px'}>
-              <Button
-                onClick={handleSubmit}
-                variant='contained'
-                style={{ backgroundColor: '#0072F0' }}
-              >
-                CADASTRAR
-              </Button>
-            </Grid>
-          </MGridForm>
-        </Grid>
-      </ResponsiveDrawer>
-      <Popup open={popupOpen} color='#cc0000' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
+      {isUserLogged() && <>
+        <ResponsiveDrawer selected='CADASTRAR INFORMATIVO'>
+          <Grid container justifyContent='center'>
+            <MGridForm title={'CADASTRO DE INFORMATIVO'}>
+              <Grid container direction='row'>
+                <MTextField
+                  xs={12}
+                  sm={12}
+                  label={'Titulo'}
+                  name={'title'}
+                  type={'text'}
+                  value={state.title}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { handleChange(e, true) }}
+                  error={!validTitle}
+                  helperText={!validTitle && state.title.length === 0 && 'Informe o titulo'}
+                />
+              </Grid>
+              <Grid container direction='row'>
+                <MTextField
+                  xs={12}
+                  sm={12}
+                  label={'Descrição'}
+                  name={'description'}
+                  type={'text'}
+                  margin={'dense'}
+                  autoFocus={false}
+                  required={true}
+                  onChange={handleChange}
+                  multiline={true}
+                  minRows={6}
+                  error={!validDescription}
+                  helperText={!validDescription && state.description.length === 0 && 'Informe a descrição'}
+                />
+              </Grid>
+              <Grid container direction='row' margin={'8px 0px 0px 0px'}>
+                <Button
+                  onClick={handleSubmit}
+                  variant='contained'
+                  style={{ backgroundColor: '#0072F0' }}
+                >
+                  CADASTRAR
+                </Button>
+              </Grid>
+            </MGridForm>
+          </Grid>
+        </ResponsiveDrawer>
+        <Popup open={popupOpen} color='#cc0000' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
+      </>}
     </>
   )
 }

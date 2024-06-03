@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import axios from 'axios'
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from 'src/AuthContext'
 import ResponsiveDrawer from 'src/components/Drawer/ResponsiveDrawer'
@@ -25,7 +25,7 @@ export default function RegisterUser (): JSX.Element {
   const [popupMessage, setPopupMessage] = useState<string>()
   const navigate = useNavigate()
 
-  useMemo(() => {
+  useEffect(() => {
     if (!isUserLogged()) {
       navigate('/login')
     }
@@ -93,82 +93,84 @@ export default function RegisterUser (): JSX.Element {
 
   return (
     <>
-      <ResponsiveDrawer selected='CADASTRAR USUÁRIO'>
-        <Grid container justifyContent='center'>
-          <MGridForm title={'CADASTRAR USUÁRIO'}>
-            <Grid container direction='row' spacing={2}>
-              <MTextField
-                xs={12}
-                sm={6}
-                label={'CPF'}
-                name={'cpf'}
-                type={'text'}
-                value={state.cpf}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                onChange={handleChange}
-                error={!validCpf}
-                helperText={!validCpf && state.cpf.length === 0 && 'Informe o CPF'}
-              />
-              <MTextField
-                xs={12}
-                sm={6}
-                label={'Nome'}
-                name={'name'}
-                type={'text'}
-                margin={'dense'}
-                autoFocus={false}
-                required={true}
-                onChange={handleChange}
-                error={!validName}
-                helperText={!validName && state.name.length === 0 && 'Informe o nome'}
-              />
-            </Grid>
-            <Grid container direction='row' spacing={2}>
-              <MTextField
-                xs={12}
-                sm={6}
-                label={'Email'}
-                name={'email'}
-                type={'email'}
-                margin={'dense'}
-                autoFocus={false}
-                required={true}
-                onChange={handleChange}
-                error={!validEmail}
-                helperText={!validEmail && state.email.length === 0 && 'Informe o email'}
-              />
-              <MTextField
-                xs={12}
-                sm={6}
-                label={'Senha'}
-                name={'password'}
-                type={'password'}
-                margin={'dense'}
-                autoFocus={false}
-                required={true}
-                onChange={handleChange}
-                error={!validPassword}
-                helperText={!validPassword && state.email.length === 0 && 'Informe a senha'}
-              />
-            </Grid>
-            <Grid direction='row'>
-              <Button
-                onClick={handleSubmit}
-                variant='contained'
-                style={{
-                  backgroundColor: '#0072F0',
-                  marginTop: '15px'
-                }}
-              >
-                CADASTRAR
-              </Button>
-            </Grid>
-          </MGridForm>
-        </Grid>
-      </ResponsiveDrawer>
-      <Popup open={popupOpen} color='#cc0000' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
+      {isUserLogged() && <>
+        <ResponsiveDrawer selected='CADASTRAR USUÁRIO'>
+          <Grid container justifyContent='center'>
+            <MGridForm title={'CADASTRAR USUÁRIO'}>
+              <Grid container direction='row' spacing={2}>
+                <MTextField
+                  xs={12}
+                  sm={6}
+                  label={'CPF'}
+                  name={'cpf'}
+                  type={'text'}
+                  value={state.cpf}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  onChange={handleChange}
+                  error={!validCpf}
+                  helperText={!validCpf && state.cpf.length === 0 && 'Informe o CPF'}
+                />
+                <MTextField
+                  xs={12}
+                  sm={6}
+                  label={'Nome'}
+                  name={'name'}
+                  type={'text'}
+                  margin={'dense'}
+                  autoFocus={false}
+                  required={true}
+                  onChange={handleChange}
+                  error={!validName}
+                  helperText={!validName && state.name.length === 0 && 'Informe o nome'}
+                />
+              </Grid>
+              <Grid container direction='row' spacing={2}>
+                <MTextField
+                  xs={12}
+                  sm={6}
+                  label={'Email'}
+                  name={'email'}
+                  type={'email'}
+                  margin={'dense'}
+                  autoFocus={false}
+                  required={true}
+                  onChange={handleChange}
+                  error={!validEmail}
+                  helperText={!validEmail && state.email.length === 0 && 'Informe o email'}
+                />
+                <MTextField
+                  xs={12}
+                  sm={6}
+                  label={'Senha'}
+                  name={'password'}
+                  type={'password'}
+                  margin={'dense'}
+                  autoFocus={false}
+                  required={true}
+                  onChange={handleChange}
+                  error={!validPassword}
+                  helperText={!validPassword && state.email.length === 0 && 'Informe a senha'}
+                />
+              </Grid>
+              <Grid direction='row'>
+                <Button
+                  onClick={handleSubmit}
+                  variant='contained'
+                  style={{
+                    backgroundColor: '#0072F0',
+                    marginTop: '15px'
+                  }}
+                >
+                  CADASTRAR
+                </Button>
+              </Grid>
+            </MGridForm>
+          </Grid>
+        </ResponsiveDrawer>
+        <Popup open={popupOpen} color='#cc0000' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
+      </>}
     </>
   )
 }

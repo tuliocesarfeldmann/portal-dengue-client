@@ -1,11 +1,11 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
 import axios from 'axios'
 import { BASE_URL } from 'src/util/util'
 import { AuthContext } from 'src/AuthContext'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ReportedPoint from 'src/components/ReportedPoint'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import Popup from 'src/components/Popup'
 
 interface PointInformation {
@@ -25,18 +25,29 @@ export default function ReportedPoints (): JSX.Element {
   const [pointList, setPointList] = useState<PointInformation[]>()
   const [popupOpen, setPopupOpen] = useState<boolean>(false)
   const [popupMessage, setPopupMessage] = useState<string>()
+  const [toggle, setToggle] = useState<string>('Pontos para aceitar')
   const { state } = useLocation()
   const navigate = useNavigate()
 
-  useMemo(() => {
+  const handleToggle = (
+    event: React.MouseEvent<HTMLElement>,
+    newOption: string
+  ): void => {
+    if (newOption !== null) {
+      setToggle(newOption)
+    }
+  }
+
+  useEffect(() => {
     if (!isUserLogged()) {
       navigate('/login')
     }
   }, [])
 
   useEffect(() => {
+    const endpoint = toggle === 'Pontos para aceitar' ? '/point/list' : '/point/listPointsToFix'
     if (email !== undefined && password !== undefined) {
-      axios.get(BASE_URL + '/point/list', {
+      axios.get(BASE_URL + endpoint, {
         auth: {
           username: email,
           password
@@ -52,7 +63,7 @@ export default function ReportedPoints (): JSX.Element {
     } else {
       navigate('/login')
     }
-  }, [])
+  }, [toggle])
 
   useEffect(() => {
     if (state?.userRegistered === true) {
@@ -63,28 +74,65 @@ export default function ReportedPoints (): JSX.Element {
 
   return (
     <>
-      <ResponsiveDrawer selected='PONTOS RELATADOS'>
-        <Box display={'flex'} flexDirection={'column'} justifySelf={'center'} width={'100%'} alignContent={'center'}>
-          <Typography fontSize={24} height={24} textAlign={'center'} fontWeight={700} width={'100%'} margin={4}>
-            PONTOS RELATADOS
-          </Typography>
-          <Grid container display={'flex'} alignItems={'start'}>
-            {pointList?.map((point) => {
-              console.log(point)
-              return (
-                <ReportedPoint
-                  key={point.id}
-                  id={point.id}
-                  lat={point.latitude}
-                  lng={point.longitude}
-                  description={point.description}
-                />
-              )
-            })}
-          </Grid>
-        </Box>
-      </ResponsiveDrawer>
-      <Popup open={popupOpen} color='#33cc33' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
+      {isUserLogged() && <>
+        <ResponsiveDrawer selected='PONTOS RELATADOS'>
+          <Box display={'flex'} flexDirection={'column'} justifySelf={'center'} width={'100%'} alignContent={'center'}>
+            <Typography fontSize={24} height={24} textAlign={'center'} fontWeight={700} margin={4}>
+              PONTOS RELATADOS
+            </Typography>
+            <ToggleButtonGroup
+              value={toggle}
+              exclusive
+              onChange={handleToggle}
+              sx={{
+                justifySelf: 'center',
+                alignSelf: 'center'
+              }}
+            >
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value='Pontos para aceitar'
+              >
+                Pontos para aceitar
+              </ToggleButton>
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value='Pontos para corrigir'
+              >
+                Pontos para corrigir
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <Grid container display={'flex'} alignItems={'start'}>
+              {pointList?.map((point) => {
+                console.log(point)
+                return (
+                  <ReportedPoint
+                    key={point.id}
+                    id={point.id}
+                    lat={point.latitude}
+                    lng={point.longitude}
+                    description={point.description}
+                    status={point.pointSituation.id}
+                  />
+                )
+              })}
+            </Grid>
+          </Box>
+        </ResponsiveDrawer>
+        <Popup open={popupOpen} color='#33cc33' message={popupMessage ?? ''} setPopupState={setPopupOpen} />
+      </>}
     </>
   )
 }

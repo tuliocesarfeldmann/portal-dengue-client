@@ -12,6 +12,7 @@ interface ReportedPointProps {
   lat: number
   lng: number
   description: string
+  status: number
 }
 
 interface AddressInfo {
@@ -25,7 +26,7 @@ interface AddressInfo {
   countryCode: string | undefined
 }
 
-export default function ReportedPoint ({ id, lat, lng, description }: ReportedPointProps): JSX.Element {
+export default function ReportedPoint ({ id, lat, lng, description, status }: ReportedPointProps): JSX.Element {
   const { email, password } = useContext(AuthContext)
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -40,6 +41,7 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
     country: undefined,
     countryCode: undefined
   })
+  const [appliedFix, setAppliedFix] = useState<string>('')
 
   const acceptColor = '#10A81F'
   const refuseColor = '#CD0707'
@@ -82,6 +84,25 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
       }
     })
       .then(_ => {
+        window.location.reload()
+      })
+      .catch(error => { console.log(error) })
+  }
+
+  function handleFixPoint (): void {
+    if (email === undefined || password === undefined) return
+
+    axios.post(BASE_URL + '/point/applyFix', {
+      pointId: id,
+      appliedFix
+    },
+    {
+      auth: {
+        username: email,
+        password
+      }
+    })
+      .then(response => {
         window.location.reload()
       })
       .catch(error => { console.log(error) })
@@ -141,12 +162,12 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
               <Button
                 variant='contained'
                 sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: acceptColor }}
-                onClick={handleAccept}
+                onClick={status === 1 ? handleAccept : () => { setModalOpen(true) }}
               >
-                Aceitar
+                {status === 1 ? 'Aceitar' : 'Marcar como corrigido'}
               </Button>
             </Grid>
-            <Grid item >
+            {status === 1 && <Grid item >
               <Button
                 variant='contained'
                 sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: refuseColor }}
@@ -154,7 +175,7 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
               >
                 Recusar
               </Button>
-            </Grid>
+            </Grid>}
           </Grid>
         </Grid>
       </Grid>
@@ -175,94 +196,125 @@ export default function ReportedPoint ({ id, lat, lng, description }: ReportedPo
           boxShadow: 24,
           p: 4
         }}>
-          <Typography textAlign={'center'} fontWeight={700} fontSize={24} marginBottom={2}>
-            Confirme os dados do endereço
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={7}>
-              <MTextField
-                label={'Rua'}
-                name={'road'}
-                type={'text'}
-                defaultValue={addressInfo.road}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setAddressInfo({ ...addressInfo, road: event.target.value }) }}
-                error={!validForm}
-                helperText={!validForm && addressInfo.road?.length === 0 && 'Informe a rua'}
-              />
+          {status === 1 && <>
+            <Typography textAlign={'center'} fontWeight={700} fontSize={24} marginBottom={2}>
+              Confirme os dados do endereço
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={7}>
+                <MTextField
+                  label={'Rua'}
+                  name={'road'}
+                  type={'text'}
+                  defaultValue={addressInfo.road}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setAddressInfo({ ...addressInfo, road: event.target.value }) }}
+                  error={!validForm}
+                  helperText={!validForm && addressInfo.road?.length === 0 && 'Informe a rua'}
+                />
+              </Grid>
+              <Grid item xs={12} md={5}>
+                <MTextField
+                  label={'Bairro'}
+                  name={'neighborhood'}
+                  type={'text'}
+                  defaultValue={addressInfo.neighborhood}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <MTextField
+                  label={'Cidade'}
+                  name={'town'}
+                  type={'text'}
+                  defaultValue={addressInfo.town}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <MTextField
+                  label={'Estado'}
+                  name={'state'}
+                  type={'text'}
+                  defaultValue={addressInfo.state}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <MTextField
+                  label={'Pais'}
+                  name={'country'}
+                  type={'text'}
+                  defaultValue={addressInfo.country}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <MTextField
+                  label={'CEP'}
+                  name={'postcode'}
+                  type={'text'}
+                  defaultValue={addressInfo.postcode}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <Button
+                  variant='contained'
+                  sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: acceptColor }}
+                  onClick={handleFinalConfirmation}
+                >
+                  Confirmar dados
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={5}>
-              <MTextField
-                label={'Bairro'}
-                name={'neighborhood'}
-                type={'text'}
-                defaultValue={addressInfo.neighborhood}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                disabled={true}
-              />
+          </>}
+          {status === 3 && <>
+            <Typography textAlign={'center'} fontWeight={700} fontSize={24} marginBottom={2}>
+              Qual foi a correção aplicada?
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <MTextField
+                  label={'Correção aplicada'}
+                  name={'appliedFix'}
+                  type={'text'}
+                  margin={'dense'}
+                  autoFocus={true}
+                  required={true}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setAppliedFix(event.target.value) }}
+                  error={!validForm}
+                  helperText={!validForm && appliedFix.length === 0 && 'Informe a rua'}
+                />
+              </Grid>
+              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <Button
+                  variant='contained'
+                  sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: acceptColor }}
+                  onClick={handleFixPoint}
+                >
+                  Confirmar correção
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} lg={6}>
-              <MTextField
-                label={'Cidade'}
-                name={'town'}
-                type={'text'}
-                defaultValue={addressInfo.town}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                disabled={true}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <MTextField
-                label={'Estado'}
-                name={'state'}
-                type={'text'}
-                defaultValue={addressInfo.state}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                disabled={true}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <MTextField
-                label={'Pais'}
-                name={'country'}
-                type={'text'}
-                defaultValue={addressInfo.country}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                disabled={true}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <MTextField
-                label={'CEP'}
-                name={'postcode'}
-                type={'text'}
-                defaultValue={addressInfo.postcode}
-                margin={'dense'}
-                autoFocus={true}
-                required={true}
-                disabled={true}
-              />
-            </Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-              <Button
-                variant='contained'
-                sx={{ padding: 1, margin: { xs: 1, md: 1 }, background: acceptColor }}
-                onClick={handleFinalConfirmation}
-              >
-                Confirmar dados
-              </Button>
-            </Grid>
-          </Grid>
+          </>}
         </Box>
       </Modal>
     </>
