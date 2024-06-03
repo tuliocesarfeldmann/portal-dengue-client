@@ -9,7 +9,7 @@ export default function Informative ({ title, description }: InformativeProps): 
   return (
     <Container style={{
       width: '98%',
-      height: '200px',
+      minHeight: '200px',
       boxShadow: '2px 2px 2px 2px rgb(0, 0, 0, 0.9)',
       color: '#000',
       borderRadius: '10px',

@@ -22,7 +22,7 @@ interface PointInformation {
 
 export default function ReportedPoints (): JSX.Element {
   const { email, password, isUserLogged } = useContext(AuthContext)
-  const [pointList, setPointList] = useState<PointInformation[]>()
+  const [pointList, setPointList] = useState<PointInformation[]>([])
   const [popupOpen, setPopupOpen] = useState<boolean>(false)
   const [popupMessage, setPopupMessage] = useState<string>()
   const [toggle, setToggle] = useState<string>('Pontos para aceitar')
@@ -115,7 +115,7 @@ export default function ReportedPoints (): JSX.Element {
               </ToggleButton>
             </ToggleButtonGroup>
             <Grid container display={'flex'} alignItems={'start'}>
-              {pointList?.map((point) => {
+              {pointList.length > 0 ? pointList?.map((point) => {
                 console.log(point)
                 return (
                   <ReportedPoint
@@ -127,7 +127,7 @@ export default function ReportedPoints (): JSX.Element {
                     status={point.pointSituation.id}
                   />
                 )
-              })}
+              }) : <div style={{ width: '100%', textAlign: 'center' }}>Nenhum Ponto Relatado</div>}
             </Grid>
           </Box>
         </ResponsiveDrawer>

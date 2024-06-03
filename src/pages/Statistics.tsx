@@ -76,6 +76,7 @@ export default function Statistics (): JSX.Element {
         <Typography variant='h6' style={{ alignSelf: 'flex-start' }}>- Quantidade por bairro:</Typography>
         <div style={{ padding: '20px' }}>
           <PieChart
+            margin={{ right: 250 }}
             series={[
               {
                 data: pieChartData,
@@ -85,8 +86,15 @@ export default function Statistics (): JSX.Element {
                 cornerRadius: 5
               }
             ]}
-            width={400}
-            height={200}
+            width={500}
+            height={360}
+            slotProps={{
+              legend: {
+                direction: 'column',
+                position: { vertical: 'top', horizontal: 'right' },
+                padding: 0
+              }
+            }}
           />
         </div>
       </Grid>
