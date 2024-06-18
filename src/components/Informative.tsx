@@ -29,14 +29,14 @@ export default function Informative ({ title, description, handleDelete }: Infor
         display: 'flex',
         flexDirection: 'row'
       }}>
-        <Typography variant='h5'>{title}</Typography>
+        <Typography sx={{ wordBreak: 'break-word' }} variant='h5'>{title}</Typography>
         <div style={{ flex: '1' }}/>
         {isUserLogged() && <IconButton onClick={handleDelete}>
           <DeleteIcon />
         </IconButton>}
       </div>
       <hr />
-      <Typography variant='body1' lineHeight={'1.5'}>{description}</Typography>
+      <Typography variant='body1' lineHeight={'1.5'} sx={{ wordBreak: 'break-word' }}>{description}</Typography>
     </Container>
   )
 }

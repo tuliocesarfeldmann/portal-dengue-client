@@ -45,7 +45,7 @@ export default function ReportedPoints (): JSX.Element {
   }, [])
 
   useEffect(() => {
-    const endpoint = toggle === 'Pontos para aceitar' ? '/point/list' : '/point/listPointsToFix'
+    const endpoint = (toggle === 'Pontos para aceitar' ? '/point/list' : '/point/listPointsToFix')
     if (email !== undefined && password !== undefined) {
       axios.get(BASE_URL + endpoint, {
         auth: {

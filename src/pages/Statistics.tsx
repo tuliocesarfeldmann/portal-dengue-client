@@ -4,7 +4,7 @@ import axios from 'axios'
 import { BarChart } from '@mui/x-charts/BarChart'
 import { PieChart } from '@mui/x-charts/PieChart'
 import { BASE_URL } from 'src/util/util'
-import { Grid, Typography } from '@mui/material'
+import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 
 interface DailyCount {
   date: string
@@ -25,9 +25,18 @@ export default function Statistics (): JSX.Element {
   const [dailyCount, setDailyCount] = useState<DailyCount[]>([])
   const [neighborhoodCount, setNeighborhoodCount] = useState<NeighborhoodCount[]>([])
   const [statusCount, setStatusCount] = useState<StatusCount[]>([])
+  const [toggleStatus, setToggleStatus] = useState<number>(3)
+  const [toggleDays, setToggleDays] = useState<number>(30)
 
   useEffect(() => {
-    axios.get(BASE_URL + '/point/public/daily-count')
+    axios.get(BASE_URL + '/point/public/daily-count',
+      {
+        params: {
+          days: toggleDays,
+          statusId: toggleStatus
+        }
+      }
+    )
       .then(response => {
         const count: DailyCount[] = response.data
         count.sort((a, b) => {
@@ -40,21 +49,34 @@ export default function Statistics (): JSX.Element {
       .catch(error => {
         console.error(error)
       })
-    axios.get(BASE_URL + '/point/public/neighborhood-count')
+    axios.get(BASE_URL + '/point/public/neighborhood-count',
+      {
+        params: {
+          days: toggleDays,
+          statusId: toggleStatus
+        }
+      }
+    )
       .then(response => {
         setNeighborhoodCount(response.data)
       })
       .catch(error => {
         console.error(error)
       })
-    axios.get(BASE_URL + '/point/public/status-count')
+    axios.get(BASE_URL + '/point/public/status-count',
+      {
+        params: {
+          days: toggleDays
+        }
+      }
+    )
       .then(response => {
         setStatusCount(response.data)
       })
       .catch(error => {
         console.error(error)
       })
-  }, [])
+  }, [toggleDays, toggleStatus])
 
   const chartData = {
     labels: dailyCount.map(item => item.date),
@@ -78,6 +100,24 @@ export default function Statistics (): JSX.Element {
     label: item.status
   }))
 
+  const handleToggleStatus = (
+    event: React.MouseEvent<HTMLElement>,
+    newOption: number
+  ): void => {
+    if (newOption !== null) {
+      setToggleStatus(newOption)
+    }
+  }
+
+  const handleToggleDays = (
+    event: React.MouseEvent<HTMLElement>,
+    newOption: number
+  ): void => {
+    if (newOption !== null) {
+      setToggleDays(newOption)
+    }
+  }
+
   return (
     <ResponsiveDrawer selected='ESTATÍSTICAS'>
       <Grid container style={{
@@ -87,8 +127,95 @@ export default function Statistics (): JSX.Element {
         padding: '20px'
       }}>
         <Typography variant='h4'>Estatísticas Gerais</Typography>
+        <Typography variant='h5' padding={2}>Filtros:</Typography>
+        <Grid container justifyContent={'center'}>
+          <Grid item display={'flex'} justifyContent={'center'} padding={2} xs={12} md={6}>
+            <ToggleButtonGroup
+              value={toggleStatus}
+              exclusive
+              onChange={handleToggleStatus}
+              sx={{
+                justifySelf: 'center',
+                alignSelf: 'center'
+              }}
+            >
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value={3}
+              >
+                Pontos ativos
+              </ToggleButton>
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value={4}
+              >
+                Pontos corrigidos
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+          <Grid item display={'flex'} justifyContent={'center'} padding={2} xs={12} md={6}>
+            <ToggleButtonGroup
+              value={toggleDays}
+              exclusive
+              onChange={handleToggleDays}
+              sx={{
+                justifySelf: 'center',
+                alignSelf: 'center'
+              }}
+            >
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value={30}
+              >
+                30 dias
+              </ToggleButton>
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value={90}
+              >
+                90 dias
+              </ToggleButton>
+              <ToggleButton
+                sx={{
+                  '&.Mui-selected, &.Mui-selected:hover': {
+                    bgcolor: '#008BDA',
+                    fontWeight: 'bold',
+                    color: 'white'
+                  }
+                }}
+                value={180}
+              >
+                180 dias
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+        </Grid>
         <hr style={{ width: '100%', margin: '20px 0' }} />
-        <Typography variant='h6' style={{ alignSelf: 'flex-start' }}>- Relatos nos últimos 30 dias:</Typography>
+        <Typography variant='h6' style={{ alignSelf: 'flex-start' }}>- Quantidade de relatos:</Typography>
         <div style={{ padding: '20px' }}>
           <BarChart
             width={500}
