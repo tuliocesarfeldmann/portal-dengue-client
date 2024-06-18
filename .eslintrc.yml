@@ -11,3 +11,4 @@ plugins:
   - '@typescript-eslint'
 rules:
   no-new: 0
+  multiline-ternary: 0
