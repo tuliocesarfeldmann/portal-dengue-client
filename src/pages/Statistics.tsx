@@ -29,7 +29,13 @@ export default function Statistics (): JSX.Element {
   useEffect(() => {
     axios.get(BASE_URL + '/point/public/daily-count')
       .then(response => {
-        setDailyCount(response.data)
+        const count: DailyCount[] = response.data
+        count.sort((a, b) => {
+          const datePartsA = a.date.split('/')
+          const datePartsB = b.date.split('/')
+          return new Date(+datePartsA[2], +datePartsA[1] - 1, +datePartsA[0]).getTime() - new Date(+datePartsB[2], +datePartsB[1] - 1, +datePartsB[0]).getTime()
+        })
+        setDailyCount(count)
       })
       .catch(error => {
         console.error(error)

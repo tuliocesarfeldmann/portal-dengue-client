@@ -115,19 +115,21 @@ export default function ReportedPoints (): JSX.Element {
               </ToggleButton>
             </ToggleButtonGroup>
             <Grid container display={'flex'} alignItems={'start'}>
-              {pointList.length > 0 ? pointList?.map((point) => {
-                console.log(point)
-                return (
-                  <ReportedPoint
-                    key={point.id}
-                    id={point.id}
-                    lat={point.latitude}
-                    lng={point.longitude}
-                    description={point.description}
-                    status={point.pointSituation.id}
-                  />
-                )
-              }) : <div style={{ width: '100%', textAlign: 'center' }}>Nenhum Ponto Relatado</div>}
+              {pointList.length > 0
+                ? pointList?.map((point) => {
+                  console.log(point)
+                  return (
+                    <ReportedPoint
+                      key={point.id}
+                      id={point.id}
+                      lat={point.latitude}
+                      lng={point.longitude}
+                      description={point.description}
+                      status={point.pointSituation.id}
+                    />
+                  )
+                })
+                : <div style={{ width: '100%', textAlign: 'center' }}>Nenhum Ponto Relatado</div>}
             </Grid>
           </Box>
         </ResponsiveDrawer>
