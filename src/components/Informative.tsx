@@ -1,11 +1,18 @@
-import { Container, Typography } from '@mui/material'
+import { Container, IconButton, Typography } from '@mui/material'
+import { useContext } from 'react'
+import { AuthContext } from 'src/AuthContext'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 interface InformativeProps {
+  id: number
   title: string
   description: string
+  handleDelete: () => void
 }
 
-export default function Informative ({ title, description }: InformativeProps): JSX.Element {
+export default function Informative ({ title, description, handleDelete }: InformativeProps): JSX.Element {
+  const { isUserLogged } = useContext(AuthContext)
+
   return (
     <Container style={{
       width: '98%',
@@ -18,7 +25,16 @@ export default function Informative ({ title, description }: InformativeProps): 
       fontFamily: 'Trebuchet MS, sans-serif',
       backgroundColor: '#FFF'
     }} >
-      <Typography variant='h5'>{title}</Typography>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row'
+      }}>
+        <Typography variant='h5'>{title}</Typography>
+        <div style={{ flex: '1' }}/>
+        {isUserLogged() && <IconButton onClick={handleDelete}>
+          <DeleteIcon />
+        </IconButton>}
+      </div>
       <hr />
       <Typography variant='body1' lineHeight={'1.5'}>{description}</Typography>
     </Container>

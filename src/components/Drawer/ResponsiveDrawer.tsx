@@ -20,6 +20,7 @@ import ListIcon from '@mui/icons-material/List'
 import AddIcon from '@mui/icons-material/Add'
 import HelpIcon from '@mui/icons-material/Help'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 
 import { AuthContext } from 'src/AuthContext'
 
@@ -117,6 +118,12 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         selected={ props.selected === 'CADASTRAR USUÁRIO' }>
         <PersonAddIcon />
         <div style={{ marginLeft: '10px', textAlign: 'left' }}>CADASTRAR USUÁRIO</div>
+      </DrawerButton>}
+      {isUserLogged() && <DrawerButton
+        onClick={() => { navigate('/users') }}
+        selected={ props.selected === 'USUÁRIOS' }>
+        <PeopleAltIcon />
+        <div style={{ marginLeft: '10px', textAlign: 'left' }}>USUÁRIOS</div>
       </DrawerButton>}
       <DrawerButton
         onClick={() => { navigate('/about') }}
