@@ -28,29 +28,19 @@ jobs:
       - name: Run tests
         run: npm test -- --ci --coverage
 
-      - name: SonarQube Scan
-        uses: sonarsource/sonarcloud-github-action@v2
+      - uses: sonarsource/sonarqube-scan-action@v3
         with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          args: > 
+            -Dsonar.projectKey=portal-dengue-client 
+            
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          file: ./Dockerfile
-          tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/portal-dengue-client:latest
+          
+      - uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   deploy:
     runs-on: ubuntu-latest
