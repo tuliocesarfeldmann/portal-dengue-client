@@ -3,7 +3,7 @@ import App from 'src/App';
 
 test("ts", async () => {
   jest.mock('react-leaflet', () => jest.fn());
-  const app = render(<App />);
+  render(<App />);
   fireEvent.click(screen.getAllByText("LOGIN").at(0)!);
 
   expect(screen.getAllByText("FAÇA O LOGIN")).not.toBeEmpty();

@@ -17,7 +17,7 @@ test("ts", async () => {
   });
 
   jest.mock('react-leaflet', () => jest.fn());
-  const app = render(<App />);
+  render(<App />);
   fireEvent.click(screen.getAllByText("ESTATÍSTICAS").at(0)!);
   fireEvent.click(screen.getAllByText("Pontos corrigidos").at(0)!);
   fireEvent.click(screen.getAllByText("90 dias").at(0)!);
