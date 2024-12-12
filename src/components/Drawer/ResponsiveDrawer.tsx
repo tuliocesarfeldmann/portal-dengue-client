@@ -65,7 +65,7 @@ export default function ResponsiveDrawer (props: Props): JSX.Element {
         alt="Portal da Dengue logo."
         src="/logo.png"
       />
-      <ListItemText primary={ 'TESTE BUILD AUTOMÁTICA' } primaryTypographyProps={{
+      <ListItemText primary={ 'PORTAL DA DENGUE - TP' } primaryTypographyProps={{
         textAlign: 'center',
         fontWeight: 700,
         fontSize: '1.5em'
