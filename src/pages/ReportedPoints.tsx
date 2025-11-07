@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
 import axios from 'axios'
-import { BASE_URL } from 'src/util/util'
-import { AuthContext } from 'src/AuthContext'
+import { BASE_URL } from '../util/util'
+import { AuthContext } from '../AuthContext'
 import { useLocation, useNavigate } from 'react-router-dom'
-import ReportedPoint from 'src/components/ReportedPoint'
+import ReportedPoint from '../components/ReportedPoint'
 import { Box, Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
-import Popup from 'src/components/Popup'
+import Popup from '../components/Popup'
 
 interface PointInformation {
   id: number

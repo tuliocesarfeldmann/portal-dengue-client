@@ -1,11 +1,21 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import App from 'src/App';
+import { vi } from 'vitest'
+import { App } from '../../App'
 
-test("ts", async () => {
-  jest.mock('react-leaflet', () => jest.fn());
+// Mock básico do react-leaflet para evitar erros de renderização no Vitest
+vi.mock('react-leaflet', () => ({
+  MapContainer: () => <div />,
+  TileLayer: () => <div />,
+  Marker: () => <div />,
+  Popup: () => <div />
+}));
+
+test("abre tela de informativos", async () => {
   render(<App />);
-  fireEvent.click(screen.getAllByText("INFORMATIVOS").at(0)!);
 
-  expect(screen.getAllByText("Nenhum Informativo")).not.toBeEmpty();
+  // Clicar no botão INFORMATIVOS
+  fireEvent.click(screen.getByRole('button', { name: /informativos/i }));
 
-})
+  // Verifica que o texto aparece na tela
+  expect(screen.getByText(/nenhum informativo/i)).toBeInTheDocument();
+});

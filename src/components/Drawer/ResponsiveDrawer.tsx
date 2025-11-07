@@ -22,7 +22,7 @@ import HelpIcon from '@mui/icons-material/Help'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 
-import { AuthContext } from 'src/AuthContext'
+import { AuthContext } from '../../AuthContext'
 
 const drawerWidth = '270px'
 const appbarHeight = '60px'

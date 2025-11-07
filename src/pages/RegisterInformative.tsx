@@ -2,12 +2,12 @@ import { Button, Grid } from '@mui/material'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from 'src/AuthContext'
-import ResponsiveDrawer from 'src/components/Drawer/ResponsiveDrawer'
-import MGridForm from 'src/components/MGridForm'
-import MTextField from 'src/components/MTextField'
-import Popup from 'src/components/Popup'
-import { BASE_URL } from 'src/util/util'
+import { AuthContext } from '../AuthContext'
+import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
+import MGridForm from '../components/MGridForm'
+import MTextField from '../components/MTextField'
+import Popup from '../components/Popup'
+import { BASE_URL } from '../util/util'
 
 export default function RegisterInformative (): JSX.Element {
   const { email, password, isUserLogged } = useContext(AuthContext)

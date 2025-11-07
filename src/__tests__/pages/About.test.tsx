@@ -1,11 +1,23 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import App from 'src/App';
+import { vi } from 'vitest'
+import { App } from '../../App'
 
-test("ts", () => {
-  jest.mock('react-leaflet', () => jest.fn());
+// Mock global de react-leaflet no ambiente de teste
+vi.mock('react-leaflet', () => ({
+  MapContainer: () => <div />,
+  TileLayer: () => <div />,
+  Marker: () => <div />,
+  Popup: () => <div />
+}));
+
+test("abre pagina Sobre e exibe os autores", async () => {
   render(<App />);
-  fireEvent.click(screen.getAllByText("SOBRE").at(0)!);
 
-  expect(screen.findAllByText("MICHEL FELIPE KROHN FORSCH")).not.toBeEmpty();
+  // Clicar no botão SOBRE
+  const sobreBtn = screen.getByRole('button', { name: /sobre/i });
+  fireEvent.click(sobreBtn);
 
-})
+  // Aguarda o texto ser carregado na tela
+  const autores = await screen.findByText(/michel felipe krohn forsch/i);
+  expect(autores).toBeInTheDocument();
+});

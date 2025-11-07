@@ -1,12 +1,12 @@
 import { Button, Grid } from '@mui/material'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
-import MapSelector, { type Point } from 'src/components/Maps/MapSelector'
-import MTextField from 'src/components/MTextField'
+import MapSelector, { type Point } from '../components/Maps/MapSelector'
+import MTextField from '../components/MTextField'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { BASE_URL } from 'src/util/util'
-import Popup from 'src/components/Popup'
+import { BASE_URL } from '../util/util'
+import Popup from '../components/Popup'
 
 export default function Home (): JSX.Element {
   const [validDescription, setValidDescription] = useState(true)

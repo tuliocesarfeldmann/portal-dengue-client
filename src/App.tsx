@@ -5,7 +5,7 @@ import { lightTheme } from './Theme'
 import { ThemeProvider } from '@mui/material'
 import { AuthProvider } from './AuthContext'
 
-function App (): JSX.Element {
+export function App (): JSX.Element {
   return (
     <ThemeProvider theme={lightTheme}>
       <AuthProvider>

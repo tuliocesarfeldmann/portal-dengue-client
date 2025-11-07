@@ -2,11 +2,11 @@ import { Button, Grid } from '@mui/material'
 import axios from 'axios'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from 'src/AuthContext'
-import MGridForm from 'src/components/MGridForm'
-import MTextField from 'src/components/MTextField'
-import Popup from 'src/components/Popup'
-import { BASE_URL } from 'src/util/util'
+import { AuthContext } from '../AuthContext'
+import MGridForm from '../components/MGridForm'
+import MTextField from '../components/MTextField'
+import Popup from '../components/Popup'
+import { BASE_URL } from '../util/util'
 
 export default function Login (): JSX.Element {
   const { setEmail, setPassword } = useContext(AuthContext)

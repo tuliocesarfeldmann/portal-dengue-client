@@ -1,7 +1,7 @@
 // import { Grid } from '@mui/material'
-import Heatmap from 'src/components/Maps/Heatmap'
+import Heatmap from '../components/Maps/Heatmap'
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
-import Popup from 'src/components/Popup'
+import Popup from '../components/Popup'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 

@@ -1,12 +1,27 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import App from 'src/App';
+import { expect, test, vi } from 'vitest'
+import { App } from '../../App'
 
-test("ts", async () => {
-  jest.mock('react-leaflet', () => jest.fn());
+import '@testing-library/jest-dom';
+
+// Mock básico do react-leaflet para evitar erros de renderização no Vitest
+vi.mock('react-leaflet', () => ({
+  MapContainer: () => <div />,
+  TileLayer: () => <div />,
+  Marker: () => <div />,
+  Popup: () => <div />
+}));
+
+test("abre modal ao clicar em CADASTRAR PONTO", async () => {
   render(<App />);
-  fireEvent.click(screen.getAllByText("CADASTRAR PONTO").at(0)!.parentElement!);
 
-  expect(screen.getAllByText("Relatar ponto")).not.toBeEmpty();
-  fireEvent.click(screen.getByText("Relatar ponto"));
+  const cadastrarBtn = screen.getByRole('button', { name: /cadastrar ponto/i });
 
-})
+  // Clicar no botão CADASTRAR PONTO
+  fireEvent.click(cadastrarBtn);
+
+  // Verifica que o texto do modal aparece na tela
+  expect(screen.getByText(/relatar ponto/i)).toBeInTheDocument();
+
+  fireEvent.click(screen.getByText(/relatar ponto/i));
+});

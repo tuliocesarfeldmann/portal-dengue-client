@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material'
-import { colors } from 'src/Theme'
+import { colors } from '../../Theme'
 
 interface Props {
   onClick: React.MouseEventHandler

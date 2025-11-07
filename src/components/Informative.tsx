@@ -1,6 +1,6 @@
 import { Container, IconButton, Typography } from '@mui/material'
 import { useContext } from 'react'
-import { AuthContext } from 'src/AuthContext'
+import { AuthContext } from '../AuthContext'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 interface InformativeProps {

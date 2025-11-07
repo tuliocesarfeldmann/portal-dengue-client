@@ -1,11 +1,11 @@
 import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import { BASE_URL } from 'src/util/util'
+import { BASE_URL } from '../util/util'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch, Paper, Typography } from '@mui/material'
-import { AuthContext } from 'src/AuthContext'
+import { AuthContext } from '../AuthContext'
 import { useNavigate } from 'react-router-dom'
-import Popup from 'src/components/Popup'
+import Popup from '../components/Popup'
 
 interface User {
   id: number

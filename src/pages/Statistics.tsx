@@ -3,7 +3,7 @@ import ResponsiveDrawer from '../components/Drawer/ResponsiveDrawer'
 import axios from 'axios'
 import { BarChart } from '@mui/x-charts/BarChart'
 import { PieChart } from '@mui/x-charts/PieChart'
-import { BASE_URL } from 'src/util/util'
+import { BASE_URL } from '../util/util'
 import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 
 interface DailyCount {

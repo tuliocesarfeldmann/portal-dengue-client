@@ -2,9 +2,9 @@ import { Box, Button, Grid, Modal, Typography } from '@mui/material'
 import MiniMapViewer from './Maps/MiniMapViewer'
 import { useContext, useState } from 'react'
 import axios from 'axios'
-import { BASE_URL } from 'src/util/util'
-import { StatusEnum } from 'src/util/StatusEnum'
-import { AuthContext } from 'src/AuthContext'
+import { BASE_URL } from '../util/util'
+import { StatusEnum } from '../util/StatusEnum'
+import { AuthContext } from '../AuthContext'
 import MTextField from './MTextField'
 
 interface ReportedPointProps {

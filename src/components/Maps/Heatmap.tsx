@@ -7,7 +7,7 @@ import { Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import axios from 'axios'
-import { BASE_URL } from 'src/util/util'
+import { BASE_URL } from '../../util/util'
 
 export default function Heatmap (): JSX.Element {
   function HeatmapLayer (): JSX.Element {
